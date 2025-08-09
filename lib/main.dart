@@ -19,6 +19,56 @@ void main() async {
   runApp(const MyApp());
 }
 
+GoRouter _createRouter(AuthProvider authProvider) {
+  return GoRouter(
+    initialLocation: authProvider.isAuthenticated ? '/home' : '/login',
+    redirect: (context, state) {
+      final isAuthenticated = authProvider.isAuthenticated;
+      final isLoggingIn = state.uri.toString() == '/login';
+
+      if (!isAuthenticated && !isLoggingIn) {
+        return '/login';
+      }
+      if (isAuthenticated && isLoggingIn) {
+        return '/home';
+      }
+      return null;
+    },
+    routes: [
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/home',
+        builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/kids-mode',
+        builder: (context, state) => const KidsModeScreen(),
+      ),
+      GoRoute(
+        path: '/video-player',
+        builder: (context, state) {
+          final video = state.extra as Video?;
+          if (video == null) {
+            return const Scaffold(
+              body: Center(
+                child: Text('Video not found.'),
+              ),
+            );
+          }
+          return VideoPlayerScreen(video: video);
+        },
+      ),
+    ],
+  );
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -39,49 +89,6 @@ class MyApp extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-
-  GoRouter _createRouter(AuthProvider authProvider) {
-    return GoRouter(
-      initialLocation: authProvider.isAuthenticated ? '/home' : '/login',
-      redirect: (context, state) {
-        final isAuthenticated = authProvider.isAuthenticated;
-        final isLoggingIn = state.location == '/login';
-
-        if (!isAuthenticated && !isLoggingIn) {
-          return '/login';
-        }
-        if (isAuthenticated && isLoggingIn) {
-          return '/home';
-        }
-        return null;
-      },
-      routes: [
-        GoRoute(
-          path: '/login',
-          builder: (context, state) => const LoginScreen(),
-        ),
-        GoRoute(
-          path: '/home',
-          builder: (context, state) => const HomeScreen(),
-        ),
-        GoRoute(
-          path: '/settings',
-          builder: (context, state) => const SettingsScreen(),
-        ),
-        GoRoute(
-          path: '/kids-mode',
-          builder: (context, state) => const KidsModeScreen(),
-        ),
-        GoRoute(
-          path: '/video-player',
-          builder: (context, state) {
-            final video = state.extra as Video?;
-            return VideoPlayerScreen(video: video!);
-          },
-        ),
-      ],
     );
   }
 }

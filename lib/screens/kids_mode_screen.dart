@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../providers/filter_provider.dart';
 import '../models/video.dart';
 
 class KidsModeScreen extends StatefulWidget {
@@ -144,9 +142,9 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.1),
+                color: Colors.green.withOpacity(0.1), // ignore: deprecated_member_use
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.green.withOpacity(0.3)),
+                border: Border.all(color: Colors.green.withOpacity(0.3)), // ignore: deprecated_member_use
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -232,9 +230,10 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
                         padding: const EdgeInsets.all(16),
                         sliver: SliverGrid(
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
+                            crossAxisCount: 2, // Adjusted to display a proper grid layout
                             childAspectRatio: 16 / 9,
                             mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
                           ),
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
@@ -263,7 +262,7 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.05), // ignore: deprecated_member_use
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -323,7 +322,7 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withOpacity(0.1), // ignore: deprecated_member_use
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(
@@ -363,15 +362,15 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
                     height: double.infinity,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Container(
-                      color: theme.colorScheme.surfaceVariant,
+                      color: theme.colorScheme.surfaceContainerHighest,
                       child: const Center(child: CircularProgressIndicator()),
                     ),
                     errorWidget: (context, url, error) => Container(
-                      color: theme.colorScheme.surfaceVariant,
+                      color: theme.colorScheme.surfaceContainerHighest,
                       child: Icon(
-                        Icons.play_circle_outline,
+                        Icons.broken_image,
                         size: 48,
-                        color: theme.colorScheme.outline,
+                        color: theme.colorScheme.error,
                       ),
                     ),
                   ),
@@ -382,7 +381,7 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.9),
+                        color: Colors.green.withOpacity(0.9), // ignore: deprecated_member_use
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
@@ -413,7 +412,7 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.8),
+                        color: Colors.black.withOpacity(0.8), // ignore: deprecated_member_use
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
@@ -477,7 +476,7 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
         color: theme.colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.05), // ignore: deprecated_member_use
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),

@@ -319,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
       label: Text(label),
       onPressed: onTap,
       backgroundColor: isActive 
-          ? theme.colorScheme.primary.withOpacity(0.1)
+          ? theme.colorScheme.primary.withOpacity(0.1) // ignore: deprecated_member_use
           : null,
       side: isActive 
           ? BorderSide(color: theme.colorScheme.primary)
@@ -399,11 +399,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: double.infinity,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Container(
-                      color: theme.colorScheme.surfaceVariant,
+                      color: theme.colorScheme.surfaceContainerHighest,
                       child: const Center(child: CircularProgressIndicator()),
                     ),
                     errorWidget: (context, url, error) => Container(
-                      color: theme.colorScheme.surfaceVariant,
+                      color: theme.colorScheme.surfaceContainerHighest,
                       child: Icon(
                         Icons.play_circle_outline,
                         size: 48,
@@ -421,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.8),
+                        color: Colors.black.withOpacity(0.8), // ignore: deprecated_member_use
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(

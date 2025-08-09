@@ -16,18 +16,18 @@ class AuthProvider extends ChangeNotifier {
 
   AuthProvider() {
     _auth.authStateChanges().listen((firebaseUser) {
-      if (firebaseUser != null) {
-        _user = AppUser(
-          id: firebaseUser.uid,
-          name: firebaseUser.displayName ?? '',
-          email: firebaseUser.email ?? '',
-          photoUrl: firebaseUser.photoURL,
-        );
-      } else {
-        _user = null;
-      }
+      _user = firebaseUser != null ? _appUserFromFirebase(firebaseUser) : null;
       notifyListeners();
     });
+  }
+
+  AppUser _appUserFromFirebase(User firebaseUser) {
+    return AppUser(
+      id: firebaseUser.uid,
+      name: firebaseUser.displayName ?? '',
+      email: firebaseUser.email ?? '',
+      photoUrl: firebaseUser.photoURL,
+    );
   }
 
   Future<void> signIn(String email, String password) async {
@@ -41,12 +41,7 @@ class AuthProvider extends ChangeNotifier {
       );
 
       if (credential.user != null) {
-        _user = AppUser(
-          id: credential.user!.uid,
-          name: credential.user!.displayName ?? '',
-          email: credential.user!.email ?? '',
-          photoUrl: credential.user!.photoURL,
-        );
+        _user = _appUserFromFirebase(credential.user!);
       }
     } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);
@@ -68,13 +63,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (credential.user != null) {
         await credential.user!.updateDisplayName(name);
-        
-        _user = AppUser(
-          id: credential.user!.uid,
-          name: name,
-          email: email,
-          photoUrl: credential.user!.photoURL,
-        );
+        _user = _appUserFromFirebase(credential.user!);
       }
     } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);
@@ -90,23 +79,23 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
 
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return;
+      if (googleUser == null) {
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       final userCredential = await _auth.signInWithCredential(credential);
-      
+
       if (userCredential.user != null) {
-        _user = AppUser(
-          id: userCredential.user!.uid,
-          name: userCredential.user!.displayName ?? '',
-          email: userCredential.user!.email ?? '',
-          photoUrl: userCredential.user!.photoURL,
-        );
+        _user = _appUserFromFirebase(userCredential.user!);
       }
     } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);

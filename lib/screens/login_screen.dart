@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withOpacity(0.1), // ignore: deprecated_member_use
                 blurRadius: 10,
                 offset: const Offset(0, 5),
               ),
@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           'Safe & Smart Content for Kids',
           style: theme.textTheme.titleMedium?.copyWith(
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withOpacity(0.9), // ignore: deprecated_member_use
           ),
         ),
       ],

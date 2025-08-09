@@ -1,40 +1,29 @@
 {
   "project_info": {
-    "project_number": "123456789000",
-    "project_id": "yt-filter-kids-demo",
-    "storage_bucket": "yt-filter-kids-demo.appspot.com"
+    "project_number": "330022111122",
+    "project_id": "fir-126e5",
+    "storage_bucket": "fir-126e5.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123456789000:android:abcdef1234567890",
+        "mobilesdk_app_id": "1:330022111122:android:eae637c3e322b15ec3a34b",
         "android_client_info": {
-          "package_name": "com.yourcompany.ytfilterkids"
+          "package_name": "com.rion.ytfilterkids"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "123456789000-abcdef1234567890.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDemoKeyReplaceMeWithRealKey"
+          "current_key": "AIzaSyAVneR3SUoerBJoPVxHvPY6QsmVtFVmmFE"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "123456789000-abcdef1234567890.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
   ],
   "configuration_version": "1"
 }
-

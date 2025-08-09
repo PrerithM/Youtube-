@@ -1,0 +1,75 @@
+name: yt_filter_kids
+description: A Flutter app for safe YouTube content filtering for kids
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # UI and Material Design
+  material_symbols_icons: ^4.2719.3
+  flutter_launcher_icons: ^0.13.1
+  
+  # State Management
+  provider: ^6.1.1
+  
+  # Navigation
+  go_router: ^13.2.0
+  
+  # HTTP and API
+  http: ^1.2.0
+  dio: ^5.4.0
+  
+  # Firebase
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  google_sign_in: ^6.2.1
+  
+  # Local Storage
+  shared_preferences: ^2.2.2
+  
+  # Video Player
+  webview_flutter: ^4.4.2
+  
+  # UI Components
+  cached_network_image: ^3.3.0
+  shimmer: ^3.0.0
+  
+  # Utils
+  url_launcher: ^6.2.2
+  share_plus: ^7.2.2
+  permission_handler: ^11.1.0
+  
+  # Development
+  flutter_lints: ^3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.7
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+  
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Bold.ttf
+          weight: 700
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21
+

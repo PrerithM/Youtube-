@@ -61,15 +61,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (user != null) ...[
                   ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: user.photoUrl != null 
-                          ? NetworkImage(user.photoUrl!)
-                          : null,
-                      child: user.photoUrl == null 
-                          ? Text(user.name.isNotEmpty ? user.name[0].toUpperCase() : 'U')
-                          : null,
+                      child: Text(user['name']?.isNotEmpty == true ? user['name'][0].toUpperCase() : 'U'),
                     ),
-                    title: Text(user.name),
-                    subtitle: Text(user.email),
+                    title: Text(user['name'] ?? ''),
+                    subtitle: Text(user['email'] ?? ''),
                   ),
                   const SizedBox(height: 16),
                 ],

@@ -19,6 +19,8 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
     Video(
       id: '1',
       title: 'Fun Science Experiments for Kids',
+      thumbnailUrl: 'https://via.placeholder.com/320x180/4ECDC4/FFFFFF?text=Science',
+      channelTitle: 'SciShow Kids',
       channel: 'SciShow Kids',
       channelId: 'UCbCmjCuTUZos6Inko4u57UQ',
       thumbnail: 'https://via.placeholder.com/320x180/4ECDC4/FFFFFF?text=Science',
@@ -29,6 +31,8 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
     Video(
       id: '2',
       title: 'Learning Math with Fun Games',
+      thumbnailUrl: 'https://via.placeholder.com/320x180/45B7D1/FFFFFF?text=Math',
+      channelTitle: 'Khan Academy',
       channel: 'Khan Academy',
       channelId: 'UC4a-Gbdw7vOaccHmFo40b9g',
       thumbnail: 'https://via.placeholder.com/320x180/45B7D1/FFFFFF?text=Math',
@@ -39,6 +43,8 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
     Video(
       id: '3',
       title: 'Wildlife Documentary for Children',
+      thumbnailUrl: 'https://via.placeholder.com/320x180/FF6B6B/FFFFFF?text=Nature',
+      channelTitle: 'National Geographic Kids',
       channel: 'National Geographic Kids',
       channelId: 'UCJ5v_MCY6GNUBTO8-D3XoAg',
       thumbnail: 'https://via.placeholder.com/320x180/FF6B6B/FFFFFF?text=Nature',
@@ -49,6 +55,8 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
     Video(
       id: '4',
       title: 'Fun Coding Tutorial for Beginners',
+      thumbnailUrl: 'https://via.placeholder.com/320x180/96CEB4/FFFFFF?text=Coding',
+      channelTitle: 'Coding for Kids',
       channel: 'Coding for Kids',
       channelId: 'UCsooa4yRKGN_zEE8iknghZA',
       thumbnail: 'https://via.placeholder.com/320x180/96CEB4/FFFFFF?text=Coding',
@@ -59,6 +67,8 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
     Video(
       id: '5',
       title: 'Learning Colors and Shapes',
+      thumbnailUrl: 'https://via.placeholder.com/320x180/FFD93D/FFFFFF?text=Colors',
+      channelTitle: 'SciShow Kids',
       channel: 'SciShow Kids',
       channelId: 'UCbCmjCuTUZos6Inko4u57UQ',
       thumbnail: 'https://via.placeholder.com/320x180/FFD93D/FFFFFF?text=Colors',
@@ -69,6 +79,8 @@ class _KidsModeScreenState extends State<KidsModeScreen> {
     Video(
       id: '6',
       title: 'Reading Stories for Kids',
+      thumbnailUrl: 'https://via.placeholder.com/320x180/A8E6CF/FFFFFF?text=Stories',
+      channelTitle: 'Khan Academy',
       channel: 'Khan Academy',
       channelId: 'UC4a-Gbdw7vOaccHmFo40b9g',
       thumbnail: 'https://via.placeholder.com/320x180/A8E6CF/FFFFFF?text=Stories',

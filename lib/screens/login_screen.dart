@@ -31,22 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     final authProvider = context.read<AuthProvider>();
-    
-    try {
-      await authProvider.signIn(
-        _emailController.text.trim(),
-        _passwordController.text,
-      );
-      
-      if (mounted) {
-        context.go('/home');
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
-      }
+    await authProvider.signIn(
+      _emailController.text.trim(),
+      _passwordController.text,
+    );
+
+    if (mounted) {
+      context.go('/home');
     }
   }
 
@@ -54,41 +45,22 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     final authProvider = context.read<AuthProvider>();
-    
-    try {
-      await authProvider.signUp(
-        _emailController.text.trim(),
-        _passwordController.text,
-        _nameController.text.trim(),
-      );
-      
-      if (mounted) {
-        context.go('/home');
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
-      }
+    await authProvider.signUp(
+      _emailController.text.trim(),
+      _passwordController.text,
+      _nameController.text.trim(),
+    );
+
+    if (mounted) {
+      context.go('/home');
     }
   }
 
   Future<void> _handleGoogleSignIn() async {
     final authProvider = context.read<AuthProvider>();
-    
-    try {
-      await authProvider.signInWithGoogle();
-      
-      if (mounted) {
-        context.go('/home');
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
-      }
+    await authProvider.signInWithGoogle();
+    if (mounted) {
+      context.go('/home');
     }
   }
 

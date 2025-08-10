@@ -1,10 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import '../providers/auth_provider.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../providers/filter_provider.dart';
+import '../providers/auth_provider.dart';
 import '../models/video.dart';
+import '../services/rss_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,63 +17,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final RssService _rssService = RssService();
   List<Video> _videos = [];
   List<Video> _filteredVideos = [];
   bool _isLoading = false;
-
-  // Mock video data
-  static const List<Video> _mockVideos = [
-    Video(
-      id: '1',
-      title: 'Amazing Science Experiments for Kids',
-      channel: 'SciShow Kids',
-      channelId: 'UCbCmjCuTUZos6Inko4u57UQ',
-      thumbnail: 'https://via.placeholder.com/320x180/4ECDC4/FFFFFF?text=Science',
-      duration: '8:45',
-      views: '2.1M views',
-      publishedAt: '2 days ago',
-    ),
-    Video(
-      id: '2',
-      title: 'Learning Math with Fun Games',
-      channel: 'Khan Academy',
-      channelId: 'UC4a-Gbdw7vOaccHmFo40b9g',
-      thumbnail: 'https://via.placeholder.com/320x180/45B7D1/FFFFFF?text=Math',
-      duration: '12:30',
-      views: '1.8M views',
-      publishedAt: '1 week ago',
-    ),
-    Video(
-      id: '3',
-      title: 'Wildlife Documentary for Children',
-      channel: 'National Geographic Kids',
-      channelId: 'UCJ5v_MCY6GNUBTO8-D3XoAg',
-      thumbnail: 'https://via.placeholder.com/320x180/FF6B6B/FFFFFF?text=Nature',
-      duration: '15:20',
-      views: '3.2M views',
-      publishedAt: '3 days ago',
-    ),
-    Video(
-      id: '4',
-      title: 'Fun Coding Tutorial for Beginners',
-      channel: 'Coding for Kids',
-      channelId: 'UCsooa4yRKGN_zEE8iknghZA',
-      thumbnail: 'https://via.placeholder.com/320x180/96CEB4/FFFFFF?text=Coding',
-      duration: '10:15',
-      views: '1.5M views',
-      publishedAt: '5 days ago',
-    ),
-  ];
+  BannerAd? _bannerAd;
 
   @override
   void initState() {
     super.initState();
     _loadVideos();
+    _loadBannerAd();
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _bannerAd?.dispose();
     super.dispose();
   }
 
@@ -80,20 +42,42 @@ class _HomeScreenState extends State<HomeScreen> {
       _isLoading = true;
     });
 
-    // Simulate API call
-    await Future.delayed(const Duration(seconds: 1));
-
     final filterProvider = context.read<FilterProvider>();
-    final filtered = _mockVideos.where((video) {
-      if (filterProvider.settings.allowedChannels.isEmpty) return true;
-      return filterProvider.isChannelAllowed(video.channelId);
-    }).toList();
+    final channelIds = filterProvider.settings.allowedChannels
+        .map((channel) => channel.id)
+        .toList();
 
-    setState(() {
-      _videos = filtered;
-      _filteredVideos = filtered;
-      _isLoading = false;
-    });
+    if (channelIds.isNotEmpty) {
+      final videos = await _rssService.fetchVideosFromRss(channelIds);
+      setState(() {
+        _videos = videos;
+        _filteredVideos = videos;
+        _isLoading = false;
+      });
+    } else {
+      // Handle case where no channels are selected
+      setState(() {
+        _videos = [];
+        _filteredVideos = [];
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _loadBannerAd() {
+    _bannerAd = BannerAd(
+      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // Test ad unit ID
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {});
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+      ),
+    )..load();
   }
 
   void _handleSearch(String query) {
@@ -103,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         _filteredVideos = _videos.where((video) {
           return video.title.toLowerCase().contains(query.toLowerCase()) ||
-                 video.channel.toLowerCase().contains(query.toLowerCase());
+                 video.channelTitle.toLowerCase().contains(query.toLowerCase());
         }).toList();
       }
     });
@@ -225,6 +209,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? _buildEmptyState(theme)
                     : _buildVideoList(),
           ),
+          if (_bannerAd != null)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SafeArea(
+                child: SizedBox(
+                  width: _bannerAd!.size.width.toDouble(),
+                  height: _bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd!),
+                ),
+              ),
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -395,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Stack(
                 children: [
                   CachedNetworkImage(
-                    imageUrl: video.thumbnail,
+                    imageUrl: video.thumbnailUrl,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Container(
@@ -421,15 +416,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.8), // ignore: deprecated_member_use
+                        color: Colors.black.withAlpha(204), // 0.8 * 255 = 204
                         borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        video.duration,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.white,
-                          fontSize: 10,
-                        ),
                       ),
                     ),
                   ),
@@ -453,14 +441,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    video.channel,
+                    video.channelTitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.outline,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${video.views} • ${video.publishedAt}',
+                    '', // No longer have view count or published date
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.outline,
                     ),

@@ -31,9 +31,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void _initializeWebView() {
-    // Generate a mock YouTube video ID for demonstration
-    const videoId = 'dQw4w9WgXcQ'; // This would normally come from the video URL
-    final youtubeUrl = 'https://www.youtube.com/embed/$videoId?autoplay=1&rel=0&modestbranding=1';
+    final youtubeUrl = 'https://www.youtube.com/embed/${widget.video.id}?autoplay=1&rel=0&modestbranding=1';
 
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -97,7 +95,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   void _handleShare() {
     Share.share(
-      'Check out this video: ${widget.video.title}\n\nhttps://youtube.com/watch?v=dQw4w9WgXcQ',
+      'Check out this video: ${widget.video.title}\n\nhttps://youtube.com/watch?v=${widget.video.id}',
       subject: widget.video.title,
     );
   }
@@ -256,7 +254,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             
             // Channel Name
             Text(
-              widget.video.channel,
+              widget.video.channelTitle,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.outline,
               ),
@@ -267,7 +265,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             Row(
               children: [
                 Text(
-                  '${widget.video.views} • ${widget.video.publishedAt}',
+                  '', // No longer have view count or published date
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.outline,
                   ),
@@ -281,13 +279,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.8),
                     borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    widget.video.duration,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.white,
-                      fontSize: 11,
-                    ),
                   ),
                 ),
               ],
